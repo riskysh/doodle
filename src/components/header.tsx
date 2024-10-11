@@ -12,6 +12,7 @@ import { Button } from "./ui/button"
   import { Input } from "@/components/ui/input"
   import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { ModeToggle } from "./mode-toggle"
+import { auth, signIn, signOut } from "@/auth"
 
 export default function Header() {
     return (
@@ -84,23 +85,46 @@ export default function Header() {
             </div>
           </form>
           <ModeToggle />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="icon" className="rounded-full">
-                <CircleUser className="h-5 w-5" />
-                <span className="sr-only">Toggle user menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <AccountMenu />
         </div>
       </header>
+    )
+}
+
+async function AccountMenu() {
+    const session = await auth()
+
+    if (!session) {
+        return <form
+        action={async () => {
+          "use server";
+          await signIn();
+        }}>
+        <Button type="submit">Login</Button>
+      </form>
+    }
+
+    return (
+        <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="secondary" size="icon" className="rounded-full bg-transparent">
+            <CircleUser className="h-5 w-5" />
+            <span className="sr-only">Toggle user menu</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem>
+            <form
+              action={async () => {
+                "use server";
+                await signOut();
+              }}
+            >
+              <button type="submit">Sign out</button>
+            </form>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+  
     )
 }
