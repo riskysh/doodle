@@ -1,9 +1,6 @@
-import Image from "next/image";
+"use client"
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return (
-    <>
-      <div>Hi</div>
-    </>
-  );
+  redirect('/search?q=')
 }

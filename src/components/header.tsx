@@ -1,12 +1,10 @@
 import Link from "next/link"
-import { CircleUser, Menu, Package2, Search } from "lucide-react"
+import { CircleUser, Menu, Laugh, Search } from "lucide-react"
 import { Button } from "./ui/button"
   import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
   import { Input } from "@/components/ui/input"
@@ -14,29 +12,24 @@ import { Button } from "./ui/button"
 import { ModeToggle } from "./mode-toggle"
 import { auth, signIn, signOut } from "@/auth"
 
-export default function Header() {
+export default async function Header() {
     return (
         <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
         <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
           <Link
-            href="#"
+            href="/"
             className="flex items-center gap-2 text-lg font-semibold md:text-base"
           >
-            <Package2 className="h-6 w-6" />
+            <Laugh className="h-6 w-6" />
             <span className="sr-only">Doodle</span>
           </Link>
           <Link
-            href="#"
-            className="text-muted-foreground transition-colors hover:text-foreground"
+            href="/"
+            className="text-muted-foreground hover:text-foreground"
           >
-            Memes
+            Browse
           </Link>
-          <Link
-            href="#"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Favorites
-          </Link>
+          <FavoriteMenu />
         </nav>
         <Sheet>
           <SheetTrigger asChild>
@@ -52,24 +45,19 @@ export default function Header() {
           <SheetContent side="left">
             <nav className="grid gap-6 text-lg font-medium">
               <Link
-                href="#"
+                href="/"
                 className="flex items-center gap-2 text-lg font-semibold"
               >
-                <Package2 className="h-6 w-6" />
+                <Laugh className="h-6 w-6" />
                 <span className="sr-only">Doodle</span>
               </Link>
               <Link
-                href="#"
+                href="/"
                 className="text-muted-foreground hover:text-foreground"
               >
-                Memes
+                Browse
               </Link>
-              <Link
-                href="#"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                Favorites
-              </Link>
+              <FavoriteMenu />
             </nav>
           </SheetContent>
         </Sheet>
@@ -85,7 +73,7 @@ export default function Header() {
             </div>
           </form>
           <ModeToggle />
-          <AccountMenu />
+         <AccountMenu />
         </div>
       </header>
     )
@@ -120,11 +108,26 @@ async function AccountMenu() {
                 await signOut();
               }}
             >
-              <button type="submit">Sign out</button>
+              <button type="submit">Logout out</button>
             </form>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
   
     )
+}
+
+async function FavoriteMenu() {
+  const session = await auth()
+
+  if (session) {
+    return (
+      <Link
+      href="/"
+      className="text-muted-foreground hover:text-foreground"
+    >
+      Favorites
+    </Link>
+    )
+  }
 }
