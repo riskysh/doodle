@@ -1,6 +1,7 @@
 import MemeCard from "./meme-card";
-import { UploadMeneBtn } from "./upload-meme-btn";
+import { UploadMemeBtn } from "./upload-meme-btn";
 import { auth } from "@/auth";
+
 
 export default function Search() {
     return (
@@ -20,7 +21,7 @@ async function UploadBtnToUser() {
         return (
         <div className="flex items-center justify-between">
             <h1 className="text-4xl font-bold">Search Results</h1>
-            <UploadMeneBtn />
+            <UploadMemeBtn />
         </div>
         )
     }

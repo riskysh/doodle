@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 
-export function UploadMeneBtn() {
+export function UploadMemeBtn() {
   return (
     <Dialog>
       <DialogTrigger asChild>
