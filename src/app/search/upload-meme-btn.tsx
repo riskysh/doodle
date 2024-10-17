@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -9,8 +11,17 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
+import { useEdgeStore } from "@/lib/edgestore"
+import { useState } from "react"
 
 export function UploadMemeBtn() {
+
+  const [file, setFile] = useState<File>()
+  const { edgestore } = useEdgeStore()
+  const [urls, setUrls] = useState<{
+    url: string;
+    thumbnailUrl: string | null;
+  }>()
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -26,27 +37,37 @@ export function UploadMemeBtn() {
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <h1>
-              Meme Title
+              Meme Content
             </h1>
             <Input
               id="name"
-              placeholder="Meme Title"
+              placeholder="Meme Content"
               className="col-span-3"
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <h1>
-              Content
+              Upload Meme
             </h1>
             <Input
+
+              onChange={(e) => {
+                setFile(e.target.files?.[0])
+              }}
+
+              type="file"
               id="username"
-              placeholder="Meme Content"
+              placeholder="Upload Meme"
               className="col-span-3"
             />
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Select and Upload Image</Button>
+          <Button onClick={async () => {
+            if (file) {
+              const res = await edgestore.publicMemes.upload({ file })
+            }
+          }}>Select and Upload Image</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -3,6 +3,7 @@ import { ThemeProvider } from "next-themes";
 import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/header";
+import { EdgeStoreProvider } from "@/lib/edgestore";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -37,7 +38,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
         <Header />
-        {children}
+        <EdgeStoreProvider>{children}</EdgeStoreProvider>
         </ThemeProvider>
       </body>
     </html>
